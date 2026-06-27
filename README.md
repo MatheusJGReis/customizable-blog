@@ -21,10 +21,10 @@ A simple and customizable Django-based web application designed to serve as a re
 3. Install required Node.js packages by running `npm install` in your terminal.
 4. Create a .env file in the root directory containing these settings:
     ```env
-        DEBUG=on
-        SECRET_KEY=your_secret_key
-        ALLOWED_HOSTS=localhost,127.0.0.1
-        DATABASE_URL=sqlite:///db.sqlite3
+    DEBUG=on
+    SECRET_KEY=your_secret_key
+    ALLOWED_HOSTS=localhost,127.0.0.1
+    DATABASE_URL=sqlite:///db.sqlite3
     ```
     > If you do not have a secret key, you can generate one [here](https://djecrety.ir/).
     > 
