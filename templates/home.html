@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block title %}Home | Customizable Blog{% endblock %}
+
+
+{% block content %}
+	{% comment %} Home Introduction {% endcomment %}
+	<section class="bg-slate-200 dark:bg-gray-900 border-slate-400/50 dark:border-gray-600/50 border-b">
+		<div class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+			<div class="flex justify-between items-baseline mb-8">
+				<h2 class="font-bold text-slate-950 dark:text-gray-50 text-2xl">Home</h2>
+			</div>
+			<div id="home-intro" class="dark:prose-invert max-w-none prose">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam esse quae necessitatibus animi magni quibusdam quo, minima delectus incidunt fugiat dolores, deleniti culpa? Dignissimos eveniet non, amet perspiciatis quidem placeat!
+				<br>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. A, vero sapiente! Quasi corporis aut cupiditate quam eveniet, reiciendis et animi suscipit eaque culpa provident nihil? Inventore incidunt labore tempora quaerat!
+				<br>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum nam omnis dolorem cumque sequi eius maiores sunt aperiam quibusdam sint debitis, minus voluptatibus! Necessitatibus, voluptatem. Temporibus ipsam at nesciunt necessitatibus.
+			</div>
+		</div>
+	</section>
+
+	{% comment %} Recent Posts {% endcomment %}
+	<section class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+		<div class="flex justify-between items-baseline mb-8">
+			<h2 class="font-bold text-slate-950 dark:text-gray-50 text-2xl">Recent Posts</h2>
+			<a
+				class="font-medium text-slate-400 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-600 text-sm transition-colors duration-200"
+				href="{% url 'posts:list' %}"
+			>
+				View all →
+			</a>
+		</div>
+
+		{% if posts %}
+			<div class="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+				{% for post in posts %}
+					<a
+						class="group flex flex-col bg-slate-200 dark:bg-gray-800 border border-slate-400/50 dark:border-gray-600/50 rounded-lg overflow-hidden hover:scale-95 transition-transform duration-200"
+						href="{% url 'posts:focus' slug=post.slug %}"
+					>
+						<div class="woverflow-hidden relative bg-white dark:bg-black aspect-video">
+							<img
+								class="border-slate-400/50 dark:border-gray-600/50 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+								src="{% if post.banner %}{{ post.banner.url }}{% else %}{% static 'img/banner_fallback.png' %}{% endif %}"
+								alt="{{ post.title }}"
+								loading="lazy"
+							/>
+						</div>
+
+						<div class="flex flex-col flex-1 p-5">
+							{% if post.tags.all %}
+								<div class="flex flex-wrap gap-1.5 mb-3">
+									{% for tag in post.tags.all %}
+										<span class="inline-block bg-slate-400 dark:bg-gray-600 px-2.5 py-0.5 rounded-full font-medium text-slate-50 dark:text-gray-50 text-xs">
+											{{ tag.name }}
+										</span>
+									{% endfor %}
+								</div>
+							{% endif %}
+
+							<h3 class="mb-2 font-semibold text-slate-950 dark:text-gray-50 text-base leading-snug transition-colors">
+								{{ post.title }}
+							</h3>
+
+							<p class="mt-auto pt-3 border-slate-400/50 dark:border-gray-600/50 border-t text-slate-400 dark:text-gray-500 text-xs">
+								by
+								<span class="font-medium text-slate-950 dark:text-gray-50">
+									{{ post.author.username }}
+								</span>
+								&nbsp;·&nbsp; {{ post.created_at|timesince }} ago
+							</p>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="bg-slate-200/50 dark:bg-gray-900/50 px-8 py-16 border border-slate-400/50 dark:border-gray-600/50 border-dashed rounded-lg text-center">
+				<p class="text-slate-400 dark:text-gray-600 text-sm">
+					No posts yet. Check back soon.
+				</p>
+			</div>
+		{% endif %}
+	</section>
+
+	{% comment %} Recent Statuses {% endcomment %}
+	<section class="bg-slate-200 dark:bg-gray-900 border-slate-400/50 dark:border-gray-600/50 border-t">
+		<div class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+			<div class="flex justify-between items-baseline mb-8">
+				<h2 class="font-bold text-slate-950 dark:text-gray-50 text-2xl">
+					Recent Statuses
+				</h2>
+				<a
+					class="font-medium text-slate-400 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-600 text-sm transition-colors"
+					href="/"
+				>
+					View all →
+				</a>
+			</div>
+
+			{% if statuses %}
+				<div class="space-y-4">
+					{% for status in statuses %}
+						<div class="bg-slate-200 dark:bg-gray-800 px-5 py-4 border border-slate-400/50 dark:border-gray-600/50 rounded-lg">
+							<p class="text-slate-800 dark:text-gray-200 leading-relaxed">
+								{{ status.content }}
+							</p>
+							<p class="mt-2 text-slate-400 dark:text-gray-600 text-xs">
+								{{ status.created_at|timesince }} ago
+							</p>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="bg-slate-50/50 dark:bg-gray-950/50 px-8 py-16 border border-slate-400/50 dark:border-gray-600/50 border-dashed rounded-lg text-center">
+					<p class="text-slate-400 dark:text-gray-600 text-sm">
+						No statuses yet. Check back soon.
+					</p>
+				</div>
+			{% endif %}
+		</div>
+	</section>
+{% endblock %}

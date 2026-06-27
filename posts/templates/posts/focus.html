@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block title %}{{ post.title }} | Customizable Blog{% endblock %}
+
+
+{% block content %}
+	{% comment %} Banner {% endcomment %}
+	<div class="relative bg-white dark:bg-black w-full aspect-16/6 overflow-hidden">
+		<img
+			class="w-full h-full object-cover"
+			src="{% if post.banner %}{{ post.banner.url }}{% else %}{% static 'img/banner_fallback.png' %}{% endif %}"
+			alt="{{ post.title }}"
+		/>
+	</div>
+
+	{% comment %} Content + Sidebar {% endcomment %}
+	<div class="mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl">
+		<div class="flex lg:flex-row flex-col items-start gap-12">
+			{% comment %} Main content {% endcomment %}
+			<article class="flex-1 min-w-0">
+				<a
+					class="inline-flex items-center gap-1.5 mb-8 text-slate-400 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-500 text-sm transition-colors duration-200"
+					href="{% url 'posts:list' %}"
+				>
+					← Back to posts
+				</a>
+
+				{% if post.tags.all %}
+					<div class="flex flex-wrap gap-1.5 mb-4">
+						{% for tag in post.tags.all %}
+							<span class="inline-block bg-slate-400 dark:bg-gray-600 px-2.5 py-0.5 rounded-full font-medium text-slate-50 dark:text-gray-50 text-xs">
+								{{ tag.name }}
+							</span>
+						{% endfor %}
+					</div>
+				{% endif %}
+
+				<h1 class="mb-4 font-bold text-slate-950 dark:text-gray-50 text-3xl sm:text-4xl leading-tight">
+					{{ post.title }}
+				</h1>
+
+				<div class="flex items-center gap-2 mb-8 pb-6 border-slate-400/30 dark:border-gray-600/30 border-b text-slate-400 dark:text-gray-500 text-sm">
+					{% if post.author.picture %}
+						<img src="" alt="{{ post.author.username }}">
+					{% else %}
+						<div class="flex flex-shrink-0 justify-center items-center bg-slate-400 dark:bg-gray-600 rounded-full w-7 h-7 font-medium text-slate-50 dark:text-gray-50 text-xs">
+							{{ post.author.username|slice:':2'|upper }}
+						</div>
+					{% endif %}
+					<span class="font-medium text-slate-950 dark:text-gray-50">{{ post.author.username }}</span>
+					<span class="opacity-40">·</span>
+					<span>{{ post.date|date:'F d, Y' }}</span>
+				</div>
+
+				{% comment %} Post body — expects HTML content from a rich text field {% endcomment %}
+				<div class="dark:prose-invert max-w-none prose">
+					{{ post.body|safe }}
+				</div>
+			</article>
+
+			{% comment %} Sidebar {% endcomment %}
+			
+		</div>
+	</div>
+{% endblock %}

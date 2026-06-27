@@ -1,0 +1,67 @@
+{% load static %}
+
+
+{% comment %} Results Count {% endcomment %}
+{% if posts %}
+    <p class="mb-6 text-slate-400 dark:text-gray-500 text-sm">
+        Showing {{ posts|length }} post{{ posts|length|pluralize }}
+        {% if q %} matching <span class="font-medium text-slate-950 dark:text-gray-50">"{{ q }}"</span>{% endif %}
+    </p>
+{% endif %}
+
+
+{% if posts %}
+    <div class="flex flex-col gap-4">
+        {% for post in posts %}
+            <a
+                class="group block sm:flex flex-row bg-slate-200 dark:bg-gray-800 border border-slate-400/50 dark:border-gray-600/50 rounded-lg overflow-hidden hover:scale-[0.99] transition-transform duration-200"
+                href="{% url 'posts:focus' slug=post.slug %}"
+            >
+                <div class="relative flex-none bg-white dark:bg-black w-full sm:w-72 md:w-80 lg:w-96 aspect-video overflow-hidden">
+                    <img
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                        src="{% if post.banner %}{{ post.banner.url }}{% else %}{% static 'img/banner_fallback.png' %}{% endif %}"
+                        alt="{{ post.title }}"
+                        loading="lazy"
+                    />
+                </div>
+                <div class="flex flex-col flex-1 justify-center gap-2 p-5 sm:p-6">
+                    {% if post.tags.all %}
+                        <div class="flex flex-wrap gap-1.5">
+                            {% for tag in post.tags.all %}
+                                <span class="inline-block bg-slate-400 dark:bg-gray-600 px-2.5 py-0.5 rounded-full font-medium text-slate-50 dark:text-gray-50 text-xs">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <h3 class="font-semibold text-slate-950 dark:text-gray-50 text-base sm:text-lg leading-snug">{{ post.title }}</h3>
+                    <p class="pt-3 border-slate-400/50 dark:border-gray-600/50 border-t text-slate-400 dark:text-gray-500 text-xs">
+                        by <span class="font-medium text-slate-950 dark:text-gray-50">{{ post.author.username }}</span>
+                        &nbsp;·&nbsp; {{ post.created_at|date:'F d, Y' }}
+                    </p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <div class="flex justify-center items-center gap-2 mt-12">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="bg-slate-200 dark:bg-gray-800 px-4 py-2 border border-slate-400/50 dark:border-gray-600/50 rounded-lg font-medium text-slate-500 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-400 text-sm transition-colors duration-200 _pagination-link">← Previous</a>
+            {% endif %}
+            <span class="px-4 py-2 text-slate-400 dark:text-gray-500 text-sm">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="bg-slate-200 dark:bg-gray-800 px-4 py-2 border border-slate-400/50 dark:border-gray-600/50 rounded-lg font-medium text-slate-500 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-400 text-sm transition-colors duration-200 _pagination-link">Next →</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <div class="bg-slate-200/50 dark:bg-gray-900/50 px-8 py-16 border border-slate-400/50 dark:border-gray-600/50 border-dashed rounded-lg text-center">
+        <p class="text-slate-400 dark:text-gray-600 text-sm">
+            {% if q %}
+                No posts found for this search.
+            {% else %}
+                No posts yet. Check back soon.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}

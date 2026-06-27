@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block title %}Posts | Customizable Blog{% endblock %}
+
+
+{% block scripts %}
+	<script>const PARTIAL_URL = '{% url "posts:list_partial" %}';</script>
+	<script src="{% static 'js/listing.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+	{% comment %} Page Header {% endcomment %}
+	<section class="bg-slate-200 dark:bg-gray-900 border-slate-400/50 dark:border-gray-600/50 border-b">
+		<div class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+			<div class="flex justify-between items-baseline">
+				<div>
+					<h2 class="font-bold text-slate-950 dark:text-gray-50 text-2xl">Posts</h2>
+					<p class="mt-2 text-slate-500 dark:text-gray-400 text-sm">
+						All articles, guides and updates published here.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% comment %} Posts List {% endcomment %}
+	<section class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+		{% comment %} Search & Tag Filters {% endcomment %}
+		<div class="flex sm:flex-row flex-col gap-4 mb-8">
+			<form id="filter-form" method="get" class="flex-1">
+				<div class="relative">
+					<svg class="top-1/2 left-3 absolute w-4 h-4 text-slate-400 dark:text-gray-500 -translate-y-1/2 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+					</svg>
+					<input
+						id="search-input"
+						class="bg-white dark:bg-gray-800 py-2 pr-4 pl-9 border border-slate-400/50 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-gray-500 w-full text-slate-950 dark:placeholder:text-gray-500 dark:text-gray-50 placeholder:text-slate-400 text-sm"
+						type="text"
+						placeholder="Search posts…"
+						name="q"
+						value="{{ request.GET.q }}"
+						autocomplete="off"
+					/>
+				</div>
+			</form>
+		</div>
+
+		<div id="posts-container">{% include 'posts/list_partial.html' with q=request.GET.q %}</div>
+	</section>
+{% endblock %}
