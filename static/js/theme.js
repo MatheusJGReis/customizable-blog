@@ -1,8 +1,8 @@
 let $themeButtons;
 
 
-const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-$(themeMediaQuery).on('change', function() {
+const THEME_MEDIA_QUERY = window.matchMedia('(prefers-color-scheme: dark)');
+$(THEME_MEDIA_QUERY).on('change', function() {
     if (localStorage.getItem('theme') === 'auto') {
         setTheme('auto');
     }
@@ -30,12 +30,12 @@ const THEME_LABELS = {
 
 function updateButtons(theme) {
     if ($themeButtons) {
-        const text = `Current theme: ${theme}`;
+        const TEXT = `Change theme: ${theme}`;
 
         $themeButtons.each(function () {
             $(this).html(THEME_LABELS[theme]);
-            $(this).attr('aria-label', theme);
-            $(this).attr('title', theme);
+            $(this).attr('aria-label', TEXT);
+            $(this).attr('title', TEXT);
         });
     }
 }
@@ -50,10 +50,10 @@ function setTheme(mode) {
     document.documentElement.dataset.theme = mode;
     localStorage.setItem('theme', mode);
 
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const PREFERS_DARK = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.classList.toggle(
         'dark',
-        mode === 'dark' || (mode === 'auto' && prefersDark)
+        mode === 'dark' || (mode === 'auto' && PREFERS_DARK)
     );
 
     updateButtons(mode);
@@ -61,12 +61,12 @@ function setTheme(mode) {
 
 
 function cycleTheme() {
-    const currentTheme = localStorage.getItem('theme') || 'auto';
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const CURRENT_THEME = localStorage.getItem('theme') || 'auto';
+    const PREFERS_DARK = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    const order = prefersDark ? ['auto', 'light', 'dark'] : ['auto', 'dark', 'light'];
+    const ORDER = PREFERS_DARK ? ['auto', 'light', 'dark'] : ['auto', 'dark', 'light'];
 
-    const nextTheme = order[(order.indexOf(currentTheme) + 1) % order.length];
+    const nextTheme = ORDER[(ORDER.indexOf(CURRENT_THEME) + 1) % ORDER.length];
 
     setTheme(nextTheme);
 }

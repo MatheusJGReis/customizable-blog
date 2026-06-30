@@ -5,9 +5,9 @@ $(document).ready(function () {
         clearTimeout(timer);
         timer = setTimeout(function () {
             const Q = $('#search-input').val().trim();
-            const params = new URLSearchParams();
-            if (Q) params.set('q', Q);
-            $.get(PARTIAL_URL + '?' + params.toString(), function (html) {
+            const PARAMS = new URLSearchParams();
+            if (Q) PARAMS.set('q', Q);
+            $.get(PARTIAL_URL + '?' + PARAMS.toString(), function (html) {
                 $('#posts-container').html(html);
             });
         }, 400);
