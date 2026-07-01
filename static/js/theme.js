@@ -11,17 +11,17 @@ $(THEME_MEDIA_QUERY).on('change', function() {
 
 const THEME_LABELS = {
     auto: `
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15" class="size-6">
+        <svg class="size-6" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15">
             <use href="#icon-auto"></use>
         </svg>
     `,
     light: `
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15" class="size-6">
+        <svg class="size-6" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15">
             <use href="#icon-sun"></use>
         </svg>
     `,
     dark: `
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15" class="size-6">
+        <svg class="size-6" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.15">
             <use href="#icon-moon"></use>
         </svg>
     `,

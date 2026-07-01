@@ -43,7 +43,7 @@
 
 				<div class="flex items-center gap-2 mb-8 pb-6 border-slate-400/30 dark:border-gray-600/30 border-b text-slate-400 dark:text-gray-500 text-sm">
 					{% if post.author.picture %}
-						<img src="" alt="{{ post.author.username }}">
+						<img src="{{ post.author.picture.url }}" alt="{{ post.author.username }}">
 					{% else %}
 						<div class="flex flex-shrink-0 justify-center items-center bg-slate-400 dark:bg-gray-600 rounded-full w-7 h-7 font-medium text-slate-50 dark:text-gray-50 text-xs">
 							{{ post.author.username|slice:':2'|upper }}
@@ -54,14 +54,11 @@
 					<span>{{ post.date|date:'F d, Y' }}</span>
 				</div>
 
-				{% comment %} Post body — expects HTML content from a rich text field {% endcomment %}
+				{% comment %} Post body {% endcomment %}
 				<div class="dark:prose-invert max-w-none prose">
 					{{ post.body|safe }}
 				</div>
 			</article>
-
-			{% comment %} Sidebar {% endcomment %}
-			
 		</div>
 	</div>
 {% endblock %}
