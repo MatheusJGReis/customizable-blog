@@ -11,11 +11,11 @@ $(document).ready(function () {
     $iconClose = $('#icon-close');
 
     $mobileButton.on('click', function () {
-        const isOpen = !($mobileMenu.hasClass('hidden'));
+        const IS_OPEN = !($mobileMenu.hasClass('hidden'));
 
         $mobileMenu.toggleClass('hidden');
         $iconHamburger.toggleClass('hidden');
         $iconClose.toggleClass('hidden');
-        $mobileButton.attr('aria-expanded', String(!isOpen));
+        $mobileButton.attr('aria-expanded', String(!IS_OPEN));
     });
 });
