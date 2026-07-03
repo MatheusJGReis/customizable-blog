@@ -29,7 +29,7 @@ A simple and customizable Django-based web application designed to serve as a re
     > If you do not have a secret key, you can generate one [here](https://djecrety.ir/).
     > 
     > If you wish to use a different database instead of SQLite3, enter the desired database's URL and check for drivers when necessary.
-5. Run `py manage.py migrate` on your terminal to migrate the database and its tables.
+5. Run `py manage.py makemigrations` and `py manage.py migrate` on your terminal to migrate the database and its tables.
 6. Run `py manage.py runserver` on your terminal and enter the web page to check if the setup went well.
 
 ---
