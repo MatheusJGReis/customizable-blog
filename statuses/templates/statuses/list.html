@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}Statuses | Customizable Blog{% endblock %}
+
+
+{% block content %}
+    <section class="bg-slate-200 dark:bg-gray-900 border-slate-400/50 dark:border-gray-600/50 border-b">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+            <h2 class="font-bold text-slate-950 dark:text-gray-50 text-2xl">Statuses</h2>
+            <p class="mt-2 text-slate-500 dark:text-gray-400 text-sm">
+                Short updates and thoughts.
+            </p>
+        </div>
+    </section>
+
+    <section class="mx-auto px-4 sm:px-6 lg:px-8 py-14 max-w-6xl">
+        {% if statuses %}
+            <div class="gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {% for status in statuses %}
+                    <div class="bg-slate-200 dark:bg-gray-800 px-5 py-4 border border-slate-400/50 dark:border-gray-600/50 rounded-lg">
+                        <p class="text-slate-800 dark:text-gray-200 text-sm leading-relaxed">
+                            {{ status.body }}
+                        </p>
+                        <p class="mt-3 pt-3 border-slate-400/50 dark:border-gray-600/50 border-t text-slate-400 dark:text-gray-500 text-xs">
+                            by <span class="font-medium text-slate-950 dark:text-gray-50">{{ status.author.username }}</span>
+                            &nbsp;·&nbsp; {{ status.created_at|timesince }} ago
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+                <div class="flex justify-center items-center gap-2 mt-12">
+                    {% if page_obj.has_previous %}
+                        <a
+                            class="bg-slate-200 dark:bg-gray-800 px-4 py-2 border border-slate-400/50 dark:border-gray-600/50 rounded-lg font-medium text-slate-500 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-400 text-sm transition-colors duration-200"
+                            href="?page={{ page_obj.previous_page_number }}"
+                        >
+                            ← Previous
+                        </a>
+                    {% endif %}
+                    <span class="px-4 py-2 text-slate-400 dark:text-gray-500 text-sm">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a
+                            class="bg-slate-200 dark:bg-gray-800 px-4 py-2 border border-slate-400/50 dark:border-gray-600/50 rounded-lg font-medium text-slate-500 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-400 text-sm transition-colors duration-200"
+                            href="?page={{ page_obj.next_page_number }}"
+                        >
+                            Next →
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="bg-slate-200/50 dark:bg-gray-900/50 px-8 py-16 border border-slate-400/50 dark:border-gray-600/50 border-dashed rounded-lg text-center">
+                <p class="text-slate-400 dark:text-gray-600 text-sm">No statuses yet. Check back soon.</p>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

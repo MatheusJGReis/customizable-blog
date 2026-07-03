@@ -26,5 +26,6 @@ urlpatterns: list[URLPattern|URLResolver] = [
     path('admin/', admin.site.urls),
     path('', views.home),
     path('about/', views.about),
-    path('posts/', include('posts.urls'))
+    path('posts/', include('posts.urls')),
+    path('statuses/', include('statuses.urls'))
 ]

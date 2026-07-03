@@ -41,7 +41,7 @@
 						class="group flex flex-col bg-slate-200 dark:bg-gray-800 border border-slate-400/50 dark:border-gray-600/50 rounded-lg overflow-hidden hover:scale-95 transition-transform duration-200"
 						href="{% url 'posts:focus' slug=post.slug %}"
 					>
-						<div class="woverflow-hidden relative bg-white dark:bg-black aspect-video">
+						<div class="relative bg-white dark:bg-black aspect-video overflow-hidden">
 							<img
 								class="border-slate-400/50 dark:border-gray-600/50 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
 								src="{% if post.banner %}{{ post.banner.url }}{% else %}{% static 'img/banner_fallback.png' %}{% endif %}"
@@ -94,21 +94,22 @@
 				</h2>
 				<a
 					class="font-medium text-slate-400 hover:text-slate-950 dark:hover:text-gray-50 dark:text-gray-600 text-sm transition-colors"
-					href="/"
+					href="{% url 'statuses:list' %}"
 				>
 					View all →
 				</a>
 			</div>
 
 			{% if statuses %}
-				<div class="space-y-4">
+				<div class="gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 					{% for status in statuses %}
 						<div class="bg-slate-200 dark:bg-gray-800 px-5 py-4 border border-slate-400/50 dark:border-gray-600/50 rounded-lg">
-							<p class="text-slate-800 dark:text-gray-200 leading-relaxed">
-								{{ status.content }}
+							<p class="text-slate-800 dark:text-gray-200 text-sm leading-relaxed">
+								{{ status.body|truncatechars:70 }}
 							</p>
 							<p class="mt-2 text-slate-400 dark:text-gray-600 text-xs">
-								{{ status.created_at|timesince }} ago
+								by <span class="font-medium text-slate-950 dark:text-gray-50">{{ status.author.username }}</span>
+								&nbsp;·&nbsp; {{ status.created_at|timesince }} ago
 							</p>
 						</div>
 					{% endfor %}

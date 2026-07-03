@@ -45,6 +45,7 @@ INSTALLED_APPS: list[str] = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'statuses',
 ]
 
 MIDDLEWARE: list[str] = [
