@@ -18,7 +18,7 @@ class Post(models.Model):
 
     def __str__(self: Post) -> str:
         return f'{self.title} | {self.created_at.strftime("%Y-%m-%d %H:%M:%S")}'
-    
+
 
 class Tag(models.Model):
     name: models.CharField = models.CharField(max_length=40)
