@@ -1,16 +1,16 @@
-from typing import Optional
+from django.core.paginator import Paginator, Page
+from django.db.models import Q
+from django.db.models.manager import BaseManager
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, Page
-from django.db import models
-from django.db.models import Q
+from typing import Optional
 from .models import Post
 
 
 def list(request: HttpRequest) -> HttpResponse:
     query: str = request.GET.get('q', '').strip()
 
-    posts: models.BaseManager[Post] = Post.objects.all().order_by('-created_at')
+    posts: BaseManager[Post] = Post.objects.all().order_by('-created_at')
 
     if query:
         posts = posts.filter(
@@ -31,7 +31,7 @@ def list(request: HttpRequest) -> HttpResponse:
 def list_partial(request: HttpRequest) -> HttpResponse:
     query: str = request.GET.get('q', '').strip()
 
-    posts: models.BaseManager[Post] = Post.objects.all().order_by('-created_at')
+    posts: BaseManager[Post] = Post.objects.all().order_by('-created_at')
 
     if query:
         posts = posts.filter(
